@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+
+# Virtual environment
+venv/
+env/
+
+# Streamlit
+.streamlit/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Models
+backend/models/
+
+# Large files
+*.json
+
+# IDE
+.vscode/
+.idea/
