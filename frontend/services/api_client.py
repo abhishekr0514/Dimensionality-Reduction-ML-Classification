@@ -1,11 +1,11 @@
 import requests
+import os
 
 # ------------------------------------------
 # Backend Configuration
 # ------------------------------------------
 
-BACKEND_URL = "http://127.0.0.1:5000"
-
+BACKEND_URL = os.getenv("BACKEND_URL", "http://localhost:5000")
 
 # ------------------------------------------
 # Generic Request Handler (Safe Wrapper)
@@ -13,6 +13,8 @@ BACKEND_URL = "http://127.0.0.1:5000"
 
 def handle_response(response):
     try:
+        if response.status_code != 200:
+            return {"error": f"Backend error: {response.status_code}"}
         return response.json()
     except Exception:
         return {"error": "Invalid response from backend"}
@@ -24,9 +26,10 @@ def handle_response(response):
 
 def get_methods():
     try:
-        response = requests.get(f"{BACKEND_URL}/methods")
-        return handle_response(response)["available_methods"]
-    except Exception as e:
+        response = requests.get(f"{BACKEND_URL}/methods", timeout=10)
+        data = handle_response(response)
+        return data.get("available_methods", [])
+    except Exception:
         return []
 
 
