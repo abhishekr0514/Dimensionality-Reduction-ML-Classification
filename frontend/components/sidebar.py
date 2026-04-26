@@ -31,6 +31,17 @@ def render_sidebar():
     # Model Selection
     # ---------------------------------
     methods = get_methods()
+
+# 🔥 HANDLE EMPTY BACKEND RESPONSE
+    if not methods:
+        st.sidebar.error("⏳ Backend is waking up... please wait 30 seconds and refresh.")
+        return {
+            "method": None,
+            "input_mode": None,
+            "sample_data": None,
+            "actual_label": None
+        }
+
     selected_model = st.sidebar.selectbox(
         "Select Model",
         methods
@@ -43,6 +54,8 @@ def render_sidebar():
     "Input Mode",
     ["— Choose Input Mode —", "Manual", "Sample", "Random"]
     )
+    if input_mode == "— Choose Input Mode —":
+        input_mode = None
 
     # ---------------------------------
     # Manual Mode (Clear session data)

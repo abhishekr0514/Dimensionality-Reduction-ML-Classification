@@ -56,23 +56,23 @@ def count_selected_features(method_name: str):
     Useful for displaying reduction comparison.
     """
 
-    if "baseline" in method_name:
+    if method_name and isinstance(method_name, str) and "baseline" in method_name:
         return 30
-    elif "pca" in method_name:
+    elif method_name and isinstance(method_name, str) and "pca" in method_name:
         return 10
-    elif "svd" in method_name:
+    elif method_name and isinstance(method_name, str) and "svd" in method_name:
         return 10
-    elif "lda" in method_name:
+    elif method_name and isinstance(method_name, str) and "lda" in method_name:
         return 1
-    elif "correlation" in method_name:
+    elif method_name and isinstance(method_name, str) and "correlation" in method_name:
         return "Reduced (correlation-based)"
-    elif "sfs" in method_name:
+    elif method_name and isinstance(method_name, str) and "sfs" in method_name:
         return 8
-    elif "sbs" in method_name:
+    elif method_name and isinstance(method_name, str) and "sbs" in method_name:
         return 8
-    elif "sffs" in method_name:
+    elif method_name and isinstance(method_name, str) and "sffs" in method_name:
         return 8
-    elif "sfbs" in method_name:
+    elif method_name and isinstance(method_name, str) and "sfbs" in method_name:
         return 8
     else:
         return "Unknown"
@@ -92,17 +92,17 @@ def safe_get(dictionary: dict, key: str, default=None):
 def get_feature_reduction_stats(method_name):
     original = 30
 
-    if "baseline" in method_name:
+    if method_name and isinstance(method_name, str) and "baseline" in method_name:
         reduced = 30
-    elif "pca" in method_name:
+    elif method_name and isinstance(method_name, str) and "pca" in method_name:
         reduced = 10
-    elif "svd" in method_name:
+    elif method_name and isinstance(method_name, str) and "svd" in method_name:
         reduced = 10
-    elif "lda" in method_name:
+    elif method_name and isinstance(method_name, str) and "lda" in method_name:
         reduced = 1
-    elif "correlation" in method_name:
+    elif method_name and isinstance(method_name, str) and "correlation" in method_name:
         reduced = 20  # estimate or compute dynamically
-    elif any(w in method_name for w in ["sfs", "sbs", "sffs", "sfbs"]):
+    elif method_name and isinstance(method_name, str) and any(w in method_name for w in ["sfs", "sbs", "sffs", "sfbs"]):
         reduced = 8
     else:
         reduced = 30

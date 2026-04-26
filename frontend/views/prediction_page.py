@@ -35,15 +35,23 @@ def render_prediction_page():
 
     config = render_sidebar()
 
-    selected_model = config["method"]
-    input_mode = config["input_mode"]
-    sample_data = config["sample_data"]
-    actual_label = config["actual_label"]
+    selected_model = config.get("method")
+    input_mode = config.get("input_mode")
+    sample_data = config.get("sample_data")
+    actual_label = config.get("actual_label")
+
+    # 🔥 ADD THIS BLOCK
+    if not selected_model or not isinstance(selected_model, str):
+        st.warning("⚠️ Please select a model from the sidebar")
+        return
 
     render_header(selected_model)
     render_reduction_stats(selected_model)
     render_model_justification(selected_model)
+    if not selected_model:
+        return
     features = get_features()
+    st.write("DEBUG selected_model:", selected_model)
 
     slider_values = render_sensitivity_sliders()
 
@@ -139,7 +147,7 @@ def render_model_justification(selected_model):
 
     st.subheader("📌 Why SVM is Used as Primary Model")
 
-    if "svm" in selected_model.lower():
+    if isinstance(selected_model, str) and "svm" in selected_model.lower():
 
         st.markdown("""
         After extensive experimental evaluation across multiple classification models 
@@ -323,3 +331,4 @@ def render_feature_importance(selected_model):
         st.bar_chart(
             df_imp.set_index("Feature")
         )
+
