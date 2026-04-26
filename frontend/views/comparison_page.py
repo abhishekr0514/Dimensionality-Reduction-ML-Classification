@@ -21,7 +21,16 @@ def render_comparison_page():
         return
 
     # Convert to DataFrame
-    df = pd.DataFrame(metrics).T
+    if not metrics or "error" in metrics:
+        st.error("⚠️ Failed to load metrics. Backend may be waking up.")
+        return
+
+    # Handle flat dictionary case
+    if all(not isinstance(v, dict) for v in metrics.values()):
+        df = pd.DataFrame([metrics])
+    else:
+        df = pd.DataFrame(metrics).T
+    st.write("DEBUG metrics:", metrics)
     df = df.sort_values(by="accuracy", ascending=False)
 
     # -----------------------------
