@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 import pandas as pd
 import os  
-from src.data_service import get_dataset
+from src.data_service import BASE_DIR, get_dataset
 from sklearn.inspection import permutation_importance
 from src.model_factory import load_model
 # Import backend logic
@@ -10,8 +10,8 @@ from src.predictor import predict
 from src.utils import get_available_methods, get_feature_names
 import shap
 import numpy as np
-from src.model_factory import load_model
-from src.data_service import get_dataset
+# from src.model_factory import load_model
+# from src.data_service import get_dataset
 # --------------------------------------------------
 # App Initialization
 # --------------------------------------------------
@@ -19,7 +19,14 @@ from src.data_service import get_dataset
 app = Flask(__name__)
 CORS(app)  # Enable cross-origin requests
 
-df=get_dataset()
+df = None
+
+def get_df():
+    global df
+    if df is None:
+        df = get_dataset()
+    return df
+
 # --------------------------------------------------
 # Routes
 # --------------------------------------------------
@@ -112,7 +119,8 @@ import json
 @app.route("/metrics", methods=["GET"])
 def get_metrics():
     try:
-        metrics_path = os.path.join("models", "metrics.json")
+        BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+        metrics_path = os.path.join(BASE_DIR, "models", "metrics.json")
 
         with open(metrics_path, "r") as f:
             metrics = json.load(f)
@@ -214,4 +222,4 @@ def shap_explanation(model_name):
 # --------------------------------------------------
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=5000)
