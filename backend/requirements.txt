@@ -2,6 +2,7 @@ flask
 flask-cors
 pandas
 numpy
-scikit-learn
+scikit-learn==1.7.2
+mlxtend==0.23.4
 shap
 gunicorn
