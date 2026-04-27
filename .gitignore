@@ -4,6 +4,7 @@ __pycache__/
 *.pyo
 *.pyd
 *.pkl
+!backend/models/*.pkl
 
 # Virtual environment
 venv/
@@ -17,10 +18,11 @@ env/
 Thumbs.db
 
 # Models
-backend/models/
+# backend/models/
 
 # Large files
 *.json
+!backend/models/*.json
 
 # IDE
 .vscode/
