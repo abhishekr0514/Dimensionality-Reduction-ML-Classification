@@ -11,7 +11,12 @@ def render_dataset_explorer():
     st.title("📊 Dataset Explorer")
 
     data = get_dataset()
-    df=pd.DataFrame(data)  
+
+    if "error" in data:
+        st.error(f"Failed to load dataset: {data['error']}")
+        return
+
+    df = pd.DataFrame(data) 
 
     # -----------------------------
     # Class Distribution
@@ -26,7 +31,7 @@ def render_dataset_explorer():
         title="Class Distribution"
     )
 
-    st.plotly_chart(fig, use_container_width=True)
+    st.plotly_chart(fig, width='stretch')
 
     # -----------------------------
     # Correlation Heatmap
@@ -41,7 +46,7 @@ def render_dataset_explorer():
         color_continuous_scale="RdBu_r"
     )
 
-    st.plotly_chart(fig2, use_container_width=True)
+    st.plotly_chart(fig2, width='stretch')
 
     # -----------------------------
     # Feature Distribution
@@ -61,7 +66,7 @@ def render_dataset_explorer():
         title=f"{feature_choice} Distribution"
     )
 
-    st.plotly_chart(fig3, use_container_width=True)
+    st.plotly_chart(fig3, width='stretch')
 
     # -----------------------------
     # PCA 2D Visualization
@@ -87,4 +92,4 @@ def render_dataset_explorer():
         title="PCA 2D Scatter Plot"
     )
 
-    st.plotly_chart(fig4, use_container_width=True)
+    st.plotly_chart(fig4, width='stretch')

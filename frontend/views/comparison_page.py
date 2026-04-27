@@ -65,7 +65,7 @@ def render_comparison_page():
     st.subheader("🔥 Performance Heatmap")
 
     heatmap_fig = render_performance_heatmap(metrics)
-    st.plotly_chart(heatmap_fig, use_container_width=True)
+    st.plotly_chart(heatmap_fig, width='stretch')
 
     # -----------------------------
     # Metric Comparison Section
@@ -78,4 +78,4 @@ def render_comparison_page():
     )
 
     bar_fig = render_metric_bar(metrics, metric_choice)
-    st.plotly_chart(bar_fig, use_container_width=True)
+    st.plotly_chart(bar_fig, width='stretch')

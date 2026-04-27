@@ -113,8 +113,11 @@ def get_feature_importance(model_name: str):
         return {"error": str(e)}
     
 def get_dataset():
-    response = requests.get(f"{BACKEND_URL}/dataset")
-    return response.json()
+    try:
+        response = requests.get(f"{BACKEND_URL}/dataset", timeout=10)
+        return handle_response(response)
+    except Exception as e:
+        return {"error": str(e)}
 
 def get_shap_values(model_name, features):
     response = requests.post(

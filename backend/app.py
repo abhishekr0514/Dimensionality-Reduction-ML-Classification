@@ -82,10 +82,11 @@ def predict_route():
 @app.route("/dataset/sample/<int:index>", methods=["GET"])
 def get_sample(index):
     try:
-        if index < 0 or index >= len(df):
+        current_df = get_df()
+        if index < 0 or index >= len(current_df):
             return jsonify({"error": "Index out of range"}), 400
 
-        row = df.iloc[index]
+        row = current_df.iloc[index]
         features = row.drop("target").tolist()
         actual_label = int(row["target"])
 
@@ -102,7 +103,8 @@ def get_sample(index):
 @app.route("/dataset/random", methods=["GET"])
 def get_random_sample():
     try:
-        row = df.sample(1).iloc[0]
+        current_df = get_df()
+        row = current_df.sample(1).iloc[0]
         features = row.drop("target").tolist()
         actual_label = int(row["target"])
 
@@ -165,7 +167,8 @@ def feature_importance(model_name):
     
 @app.route("/dataset", methods=["GET"])
 def get_dataset_route():
-    return jsonify(df.to_dict(orient="records"))
+    current_df = get_df()
+    return jsonify(current_df.to_dict(orient="records"))
 
 @app.route("/shap/<model_name>", methods=["POST"])
 def shap_explanation(model_name):
